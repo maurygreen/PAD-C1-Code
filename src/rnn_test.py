@@ -60,7 +60,7 @@ if __name__ == "__main__":
     tokenizer = Tokenizer(num_words=MAX_NUM_WORDS, oov_token="<UNK>", split=' ', lower=True)
     tokenizer.fit_on_texts(X_train)
 
-    model = load_model("model.05-0.67.h5")
+    model = load_model("model.05-0.65.h5")
 
     X_test = tokenizer.texts_to_sequences(X_test)
     X_test = pad_sequences(X_test, maxlen=MAX_QUESTION_LEN)
@@ -68,6 +68,5 @@ if __name__ == "__main__":
     test_preds = np.rint(model.predict(X_test, batch_size=BATCH_SIZE))
 
     evaluate(y_test, test_preds, name="test")
-
 
 

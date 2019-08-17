@@ -13,7 +13,8 @@ from model_utils import get_response_time_label, add_classes, plot_cm, dummy_tok
 import random
 import copy
 
-SEED = Config.SEED
+SEED = 42
+#SEED = Config.SEED
 random.seed(SEED)
 
 def run_baselines(data):

@@ -163,12 +163,14 @@ if __name__ == "__main__":
     X_train = pad_sequences(X_train, maxlen=MAX_QUESTION_LEN)
     X_dev = pad_sequences(X_dev, maxlen=MAX_QUESTION_LEN)
 
-#    class_weight = defaultdict(int)
-#    for label in y_train:
-#        class_weight[label] += 1
-#    tot = sum(class_weight.values())
-#    for c in class_weight.keys():
-#        class_weight[c] /= tot
+    print(X_train)
+
+    class_weight = defaultdict(int)
+    for label in y_train:
+        class_weight[label] += 1
+    tot = sum(class_weight.values())
+    for c in class_weight.keys():
+        class_weight[c] /= tot
 
     callbacks = [F1_Score((X_train, y_train)),
                  ModelCheckpoint("model.{epoch:02d}-{val_loss:.2f}.h5", monitor="val_loss", save_best_only=False, period=1)]

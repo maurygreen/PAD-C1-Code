@@ -94,8 +94,8 @@ def parse_timestamps(data):
     data.created_at = pd.to_datetime(data.created_at,format="%Y-%m-%d %H:%M:%S %Z")
     return data
 
-def tokenize_utterances(data):
-    tokenizer = spacy.load('en_core_web_sm', disable=["tagger", "parser", "ner", "textcat"])
+def tokenize_utterances(data, tokenizer):
+  #tokenizer = spacy.load('en_core_web_sm', disable=["tagger", "parser", "ner", "textcat"])
     tokenizer.tokenizer.add_special_case(Config.URL_TAG, [{spacy.symbols.ORTH: Config.URL_TAG}])
 
     progress = progressbar.ProgressBar(max_value=data.shape[0]).start()
@@ -124,6 +124,8 @@ if __name__ == "__main__":
         log_info("Deleting %s" % Config.REMOVED_ROWS_FILE)
         os.remove(Config.REMOVED_ROWS_FILE)
 
+    tokenizer = spacy.load('en_core_web_sm', disable=["tagger", "parser", "ner", "textcat"])
+
     log_info("Reading CSV file")
     data = read_csv(args.datafile)
 
@@ -143,7 +145,7 @@ if __name__ == "__main__":
     data = normalize_url(data)
 
     log_info("Tokenizing utterances")
-    date = tokenize_utterances(data)
+    date = tokenize_utterances(data, tokenizer)
 
     log_info("Writing to %s" % args.dest)
     data.to_csv(args.dest, index=False)
